@@ -48,7 +48,7 @@ fun HomeView(
     navController: NavController,
     viewModel: WishViewModel
 ){
-    val context = LocalContext.current
+    //val context = LocalContext.current
     val scaffoldState = rememberScaffoldState()
     Scaffold(
         scaffoldState = scaffoldState,
@@ -59,7 +59,7 @@ fun HomeView(
                 contentColor = Color.White,
                 backgroundColor = Color.Black,
                 onClick = {
-                    Toast.makeText(context, "FAButton Clicked", Toast.LENGTH_LONG).show()
+                    //Toast.makeText(context, "FAButton Clicked", Toast.LENGTH_LONG).show()
                     navController.navigate(Screen.AddScreen.route + "/0L")
 
                 }) {
@@ -68,12 +68,14 @@ fun HomeView(
         }
 
     ) {
+        //all wish list datas
         val wishlist = viewModel.getAllWishes.collectAsState(initial = listOf())
         LazyColumn(modifier = Modifier
             .fillMaxSize()
             .padding(it)){
             items(wishlist.value, key={wish-> wish.id} ){
                     wish ->
+                //Swipe to delete feature 1
                 val dismissState = rememberDismissState(
                     confirmStateChange = {
                         if(it == DismissValue.DismissedToEnd || it== DismissValue.DismissedToStart){
@@ -83,6 +85,7 @@ fun HomeView(
                     }
                 )
 
+                //Swipe to delete feature 2
                 SwipeToDismiss(
                     state = dismissState,
                     background = {
@@ -103,6 +106,7 @@ fun HomeView(
 
                     },
                     directions = setOf(DismissDirection.EndToStart),
+                    //this will help to swipe to some distance at screen -> dismissThresholds
                     dismissThresholds = {FractionalThreshold(1f)},
                     dismissContent = {
                         WishItem(wish = wish) {

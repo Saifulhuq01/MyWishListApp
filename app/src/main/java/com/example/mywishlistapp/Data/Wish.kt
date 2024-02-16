@@ -14,6 +14,8 @@ data class Wish(
     val description:String=""
 )
 
+
+//just testing datas
 object DummyWish{
     val wishList = listOf(
         Wish(title="Google Watch 2",

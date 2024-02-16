@@ -39,12 +39,13 @@ fun AddEditDetailView(
     viewModel: WishViewModel,
     navController: NavController
 ){
-
+    //scaffoldState is an accessed by snackMessage
+    val scaffoldState = rememberScaffoldState()
     val snackMessage = remember{
         mutableStateOf("")
     }
     val scope = rememberCoroutineScope()
-    val scaffoldState = rememberScaffoldState()
+    //this condition for if you already added some wish and again u want to add a wish its ill be a blank box
     if (id != 0L){
         val wish = viewModel.getAWishById(id).collectAsState(initial = Wish(0L, "", ""))
         viewModel.wishTitleState = wish.value.title
@@ -89,6 +90,7 @@ fun AddEditDetailView(
                 if(viewModel.wishTitleState.isNotEmpty() &&
                     viewModel.wishDescriptionState.isNotEmpty()){
                     if(id != 0L){
+                        //update Wish
                         viewModel.updateWish(
                             Wish(
                                 id = id,
@@ -109,6 +111,7 @@ fun AddEditDetailView(
                     //
                     snackMessage.value = "Enter fields to create a wish"
                 }
+                // after update or adding a wish automatically it will closed
                 scope.launch {
                     //scaffoldState.snackbarHostState.showSnackbar(snackMessage.value)
                     navController.navigateUp()
